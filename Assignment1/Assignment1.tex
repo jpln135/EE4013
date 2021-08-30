@@ -132,35 +132,61 @@ columns=fullflexible
 Download all latex-tikz codes from 
 %
 \begin{lstlisting}
-https://github.com/jpln135/EE4013/blob/main/Assignment1/Assignment1.tex
+https://github.com/jpln135/EE4013/tree/master/Assignment1/Assignment1.tex
 \end{lstlisting}
 
 \section{Problem}
-(Goods and Services Tax (GST) is an indirect tax introduced in India in 2017 that is imposed on the supply of goods and services, and it subsumes all indirect taxes except few. It is a destination-based tax imposed on goods and services used, and it is not imposed at the point of origin from where goods come. GST also has a few components specific to state governments, central government  and Union Territories (UTs).
+Consider the following C code
+\begin{lstlisting}
+#include <stdio.h>
+int * assignval (int *x, int val) 
+{
+    *x = val;
+    return x;
+}
+int main() 
+{
+    int *x = malloc(sizeof(int));
+    if (NULL == x) return;
+    x = assignval(x, 0);
+    if(x)
+    {
+        x = (int*) malloc(sizeof (int));
+        if (NULL == x) return;
+        x = assignval (x, 10);
+    }
+    printf("%d\n", *x);
+    free(x);
+}
+\end{lstlisting}
 
-Which one of the following statements can be inferred from the given passage?
-    
-\begin{enumerate}
-    \item GST is imposed on the production of goods and services.
-    \item GST includes all indirect taxes.
-    \item GST does not have a component specific to UT.
-    \item GST is imposed at the point of usage of goods and services.
-\end{enumerate}
+The code suffers from which of the following problems: 
+\\
+(A) compiler error as the return of malloc is not typecast appropriately. \\
+(B) compiler error because the comparison should be made as x==NULL and not as shown. \\
+(C) compiles successfully but execution may result in dangling pointer. \\
+(D) compiles successfully but execution may result in memory leak. \\
 
 \section{Solution}
 
-Consider \textbf{Option 1}:
-FALSE, because GST is imposed on "supply" of goods and services and not "production". \\
+Answer: (D) compiles successfully but execution may result in memory leak. \\
 
-Consider \textbf{Option 2}:
-FALSE, because GST subsumes all indrect taxes "except few". \\
+Memory leak occurs when memory is created in the heap but not deleted. \\
 
-Consider \textbf{Option 3}:
-FALSE, because GST has "few components" specific to Union Territories. \\
+Consider the line of code, 
+\begin{lstlisting}
+int *x = malloc(sizeof(int));
+\end{lstlisting}
 
-Consider \textbf{Option 4}:
-TRUE, because GST is imposed at point of usage of goods and services at destination. \\
+In the above line of code, 4-bytes of memory (Size of integer) is created and the address is assigned to x; \\
 
-Hence Option 4 is the correct answer.
+Consider the line of code (in if-block), 
+\begin{lstlisting}
+x = (int*) malloc(sizeof (int));
+\end{lstlisting}
+
+In the above line of code, pointer variable is reassigned to a new address loacation. \\
+
+From the above 2 lines we can conclude that, the initial address to which the pointer variable x was pointing to is lost and hence a memory leak is present.
 
 \end{document}
