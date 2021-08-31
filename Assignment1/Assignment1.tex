@@ -176,6 +176,9 @@ The code suffers from which of the following problems:
 
 Answer: (D) compiles successfully but execution may result in memory leak. \\
 
+Output: \\
+10 \\
+
 Memory leak occurs when memory is created in the heap but not deleted. \\
 
 Consider the line of code, 
@@ -219,6 +222,9 @@ int main()
     free(x);
 }
 \end{lstlisting}
+
+Output: \\
+10 \\
 
 
 \end{document}
