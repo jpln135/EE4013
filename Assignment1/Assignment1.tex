@@ -129,6 +129,11 @@ columns=fullflexible
 \bigskip
 \renewcommand{\thefigure}{\theenumi}
 \renewcommand{\thetable}{\theenumi}
+Download all Codes from 
+%
+\begin{lstlisting}
+https://github.com/jpln135/EE4013/tree/master/Assignment1/codes
+\end{lstlisting}
 Download all latex-tikz codes from 
 %
 \begin{lstlisting}
@@ -187,6 +192,33 @@ x = (int*) malloc(sizeof (int));
 
 In the above line of code, pointer variable is reassigned to a new address loacation. \\
 
-From the above 2 lines we can conclude that, the initial address to which the pointer variable x was pointing to is lost and hence a memory leak is present.
+From the above 2 lines we can conclude that, the initial address to which the pointer variable x was pointing to is lost and hence a memory leak is present. \\
+
+We can correct this by freeing the memory space before allocating new memory. 
+
+\begin{lstlisting}
+#include <stdio.h>
+int * assignval (int *x, int val) 
+{
+    *x = val;
+    return x;
+}
+int main() 
+{
+    int *x = malloc(sizeof(int));
+    if (NULL == x) return;
+    x = assignval(x, 0);
+    if(x)
+    {
+        free(x); // Free memory
+        x = (int*) malloc(sizeof (int));
+        if (NULL == x) return;
+        x = assignval (x, 10);
+    }
+    printf("%d\n", *x);
+    free(x);
+}
+\end{lstlisting}
+
 
 \end{document}
